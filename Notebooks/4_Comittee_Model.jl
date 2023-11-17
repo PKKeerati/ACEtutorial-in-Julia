@@ -12,17 +12,24 @@ begin
 	Pkg.add("MultivariateStats")
 	Pkg.add("Plots")
 	Pkg.add("Suppressor")
-	using LaTeXStrings, MultivariateStats, Plots, Printf, Statistics, Suppressor
-end
+	using LaTeXStrings, MultivariateStats, Plots, Printf, Statistics, Suppressor#
 
-# ╔═╡ 4a5d9b66-6f39-4c6b-856a-1f4cf873ed29
-begin
 	Pkg.activate(".")
 	Pkg.Registry.add("General")  # only needed when installing Julia for the first time
 	Pkg.Registry.add(RegistrySpec(url="https://github.com/ACEsuit/ACEregistry"))
 	Pkg.add("ACEpotentials")
 	using ACEpotentials
 end
+
+# ╔═╡ 9cc36068-1bbd-485b-a8d0-3837c54c7fa7
+md"""
+### Installing ACEpotentials
+"""
+
+# ╔═╡ 92b9901f-e3f6-4f89-b819-127e5f6b83f7
+md"""
+### Downloading dataset
+"""
 
 # ╔═╡ b4423e07-1b6e-4a77-ae50-d1f2ecd70d1a
 begin
@@ -35,7 +42,7 @@ begin
 	
 	Si_dataset = read_extxyz("Si_dataset.xyz");
 	config_types = [at.data["config_type"].data for at in Si_dataset]
-end
+end;
 
 # ╔═╡ d6c59890-d1e2-4bb2-b281-db1ca4b667e0
 begin
@@ -56,6 +63,16 @@ begin
 	GC.gc()
 end
 
+# ╔═╡ ccab2500-d930-41ba-bfea-86ba9bf7026f
+md"""
+## Part 4: Committee models
+ACEpotentials.jl can produce committee models using Bayesian linear regression. Such committees provide uncertainty estimates useful for active learning.
+
+Recall our two silicon datasets. We begin by training a (relatively small) model on the tiny version.
+
+Note the use of the BLR solver with a nonzero committee size.
+"""
+
 # ╔═╡ dc0eccf0-8541-11ee-2421-0713757269ef
 begin
 	model = acemodel(elements = [:Si,],
@@ -68,6 +85,11 @@ begin
 	        energy_key = "dft_energy", force_key = "dft_force",
 	        verbose = false);
 end
+
+# ╔═╡ 6ef7f775-44bd-4ce2-be9d-29b0ea815448
+md"""
+Next we define a function which assesses model performance on the full silicon dataset.
+"""
 
 # ╔═╡ c2481c27-3bf4-474e-b0fa-4932ddcea13b
 function assess_model(model, train_dataset)
@@ -99,8 +121,20 @@ function assess_model(model, train_dataset)
 
 end;
 
+# ╔═╡ 4609fcce-d2e8-4106-8865-56dc20f7b6a9
+md"""
+Applying this function to our current model yields
+"""
+
 # ╔═╡ 4c8e1eb4-aedc-4344-808f-5cfb6e37d607
 assess_model(model, Si_tiny_dataset)
+
+# ╔═╡ 200598e9-1d14-41b6-bf6b-0a3d9c7299f0
+md"""
+Clearly there is room to improve: the model-derived RMSE is 280 meV/atom for the full dataset. Moreover, the error bars show the standard deviation of the energies predicted by the commmittee, which are quite high for some data.
+
+Next, we will define a function that augments the tiny dataset by adding structures for which the model is least confident.
+"""
 
 # ╔═╡ adf9c84d-21df-44c1-bb57-f80e8d09fb72
 function augment(old_dataset, old_model; num=5)
@@ -124,33 +158,62 @@ function augment(old_dataset, old_model; num=5)
     return new_dataset, new_model
 end;
 
+# ╔═╡ 1472e38e-5d35-4038-b07d-8d2dcab22c9b
+md"""
+The following applies this strategy, adding the five structures with the highest committee deviation.
+"""
+
 # ╔═╡ 7c387fde-81df-415e-863d-ec585d328900
 begin
 	new_dataset, new_model = augment(Si_tiny_dataset, model; num=5);
 	assess_model(new_model, new_dataset)
 end
 
+# ╔═╡ 80f17d73-81e0-44c7-8c6b-005474116ba9
+md"""
+Already, there is notable improvement. The overall errors have dropped, and the predictions for the worst-performing structures are much improved.
+
+Next, we perform four additional augmentation steps, adding twenty structures in total.
+"""
+
 # ╔═╡ 6a99ca1d-6f23-4ba5-8dc3-f23601b4b67b
 begin
-	for i in 1:5
+	for i in 1:4
 	    @show i
 	    new_dataset, new_model = augment(new_dataset, new_model; num=5);
 	end
 	assess_model(new_model, new_dataset)
 end
 
+# ╔═╡ 56dbb733-9b84-47a5-9aaf-7cb6625ec485
+md"""
+Remarkably, although we are using only a small fraction (~3%) of the full dataset, our model now performs reasonably well.
+
+Further iterations may improve on this result; however, a larger model is necessary to obtain extremely low errors.
+
+Important: While this dataset filtering can be useful, the connection with active learning is crucial. Recall that we did not use the reference energies when selecting structures, only the committee deviation.
+"""
+
 # ╔═╡ 81992eb6-8fa0-473d-aa34-d8b54045b17d
 GC.gc()
 
 # ╔═╡ Cell order:
+# ╠═9cc36068-1bbd-485b-a8d0-3837c54c7fa7
 # ╠═15830db7-7ef6-4222-838d-1a86eff4ca85
-# ╠═4a5d9b66-6f39-4c6b-856a-1f4cf873ed29
+# ╠═92b9901f-e3f6-4f89-b819-127e5f6b83f7
 # ╠═b4423e07-1b6e-4a77-ae50-d1f2ecd70d1a
 # ╠═d6c59890-d1e2-4bb2-b281-db1ca4b667e0
+# ╠═ccab2500-d930-41ba-bfea-86ba9bf7026f
 # ╠═dc0eccf0-8541-11ee-2421-0713757269ef
+# ╠═6ef7f775-44bd-4ce2-be9d-29b0ea815448
 # ╠═c2481c27-3bf4-474e-b0fa-4932ddcea13b
+# ╠═4609fcce-d2e8-4106-8865-56dc20f7b6a9
 # ╠═4c8e1eb4-aedc-4344-808f-5cfb6e37d607
+# ╠═200598e9-1d14-41b6-bf6b-0a3d9c7299f0
 # ╠═adf9c84d-21df-44c1-bb57-f80e8d09fb72
+# ╠═1472e38e-5d35-4038-b07d-8d2dcab22c9b
 # ╠═7c387fde-81df-415e-863d-ec585d328900
+# ╠═80f17d73-81e0-44c7-8c6b-005474116ba9
 # ╠═6a99ca1d-6f23-4ba5-8dc3-f23601b4b67b
+# ╠═56dbb733-9b84-47a5-9aaf-7cb6625ec485
 # ╠═81992eb6-8fa0-473d-aa34-d8b54045b17d
