@@ -81,6 +81,9 @@ begin
 	end
 end
 
+# ╔═╡ 433ef3fa-a5cd-4087-9741-15bd09661ff5
+descriptors 
+
 # ╔═╡ d3b97934-cbff-4705-af62-17e56ce1e4f5
 md"""
 Next, we extract and plot the principal components of the structural descriptors. Note the segregation by configuration type.
@@ -116,7 +119,7 @@ begin
 	p2 = scatter(
 	     descriptors_trans2[1,:], descriptors_trans2[2,:], descriptors_trans2[3,:],
 	     marker=:circle, linewidth=0, group=config_types,legend=:outertopright)
-	plot!(p2, xlabel="PC1", ylabel="PC2", zlabel="PC3", camera=(40,10))
+	plot!(p2, xlabel="PC1", ylabel="PC2", zlabel="PC3", camera=(10,10))
 end
 
 # ╔═╡ 6798ab9c-e280-402b-b303-8ad6caf97a0e
@@ -132,6 +135,7 @@ GC.gc()
 # ╠═4585e7f4-6ca8-48ee-b86c-164ddbac6954
 # ╠═8e512f7d-d3f1-427f-a77e-3735b1f8ab11
 # ╠═3225d9a5-db98-41fb-96fc-44be39b74f7b
+# ╠═433ef3fa-a5cd-4087-9741-15bd09661ff5
 # ╠═d3b97934-cbff-4705-af62-17e56ce1e4f5
 # ╠═73cfabfb-1c9d-45b7-a03b-03231dd5e938
 # ╠═6678f32f-5534-406b-8b45-ab53d9caa950
