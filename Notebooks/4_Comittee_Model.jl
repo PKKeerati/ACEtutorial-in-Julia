@@ -132,7 +132,7 @@ end
 
 # ╔═╡ 6a99ca1d-6f23-4ba5-8dc3-f23601b4b67b
 begin
-	for i in 1:4
+	for i in 1:5
 	    @show i
 	    new_dataset, new_model = augment(new_dataset, new_model; num=5);
 	end
