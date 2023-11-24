@@ -113,6 +113,9 @@ begin
 	end;
 end
 
+# ╔═╡ 0093e684-dcba-43a1-bbf9-b43341b49adf
+config_types 
+
 # ╔═╡ 8a33d459-6fd1-44e4-986f-e51b4c852fba
 begin
 	#Counting Conf. of Tiny dataset
@@ -211,6 +214,9 @@ begin
 	GC.gc()
 end
 
+# ╔═╡ 5ddb8936-8f3b-49d9-9231-bf13d2044551
+
+
 # ╔═╡ Cell order:
 # ╠═e3f3878b-67b8-4a28-b689-fac7a77d8136
 # ╠═da3158ce-84dd-11ee-0e81-3516ae8782d9
@@ -218,17 +224,18 @@ end
 # ╠═1b5cb9ff-8487-4e75-b17b-3a373bb8a1b0
 # ╠═07540757-a430-456d-8053-db1f34842734
 # ╠═14407001-9740-4f51-bcef-4047d4adcf34
-# ╠═9af041ff-70f0-4893-b936-a7976a9c2c20
+# ╟─9af041ff-70f0-4893-b936-a7976a9c2c20
 # ╠═a2f772d5-7735-4b3d-a8ff-9f31b1eb3337
-# ╠═5701747b-761d-40fb-aa8a-fa5847b65731
-# ╠═e99b7521-99ff-42eb-a879-4418cd53806c
+# ╟─5701747b-761d-40fb-aa8a-fa5847b65731
+# ╟─e99b7521-99ff-42eb-a879-4418cd53806c
 # ╠═9a13a2f0-94dd-44d7-89c7-5080460ffa3c
-# ╠═264a590c-537e-4b83-b193-1dedbc16b518
+# ╟─264a590c-537e-4b83-b193-1dedbc16b518
 # ╠═bf1b81ac-97eb-46ee-abfb-f0b19cad2a3c
-# ╠═e4b8188f-48ae-47e9-af20-c870cddd588d
+# ╟─e4b8188f-48ae-47e9-af20-c870cddd588d
 # ╠═d61552f2-bf22-4fca-8622-8a001698aa41
-# ╠═63f15e27-f186-44f8-9812-6139240c21c6
+# ╟─63f15e27-f186-44f8-9812-6139240c21c6
 # ╠═8ee22d81-db9e-4985-a0fe-bf2f4184e10d
+# ╠═0093e684-dcba-43a1-bbf9-b43341b49adf
 # ╠═8a33d459-6fd1-44e4-986f-e51b4c852fba
 # ╠═cb3f1c8d-1042-43bf-a357-9562b140f743
 # ╠═62d46ac2-e194-4730-8bbe-bc652f8056ee
@@ -238,3 +245,4 @@ end
 # ╠═f3cba55e-19ee-445f-8caf-167483f3bdc0
 # ╠═d060defc-3881-4d13-9f11-158bf103ef15
 # ╠═5b4944fd-411a-45ec-a97b-8abc38febf50
+# ╠═5ddb8936-8f3b-49d9-9231-bf13d2044551

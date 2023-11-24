@@ -2,7 +2,7 @@
 
 julia_version = "1.9.3"
 manifest_format = "2.0"
-project_hash = "2c9c87c960b8a52f2df69b25231fc45e2226294e"
+project_hash = "774cbc8ae9814ca2a98b2eaf9582f52eda340016"
 
 [[deps.ACE1]]
 deps = ["ACEbase", "BenchmarkTools", "Combinatorics", "ForwardDiff", "InteractiveUtils", "Interpolations", "JuLIP", "LinearAlgebra", "NeighbourLists", "Parameters", "Pkg", "Printf", "QuadGK", "Random", "Reexport", "Roots", "SparseArrays", "StaticArrays", "Test"]

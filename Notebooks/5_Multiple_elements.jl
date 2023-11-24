@@ -70,7 +70,7 @@ begin
 	adf_tiny_Ti = ACEpotentials.get_adf(tial_data, r_cut_adf_Ti);
 	plt_adf_1 = histogram(adf_tiny_Ti, bins=50, label = "adf", yticks = [], c = 3,
 	                    title = "Ti", titlefontsize = 10,
-	                    xlabel = L"\theta", ylabel = "ADF",
+	                    xlabel = L"\theta", ylabel = "ADF TiTi",
 	                    xlims = (0, π), size=(400,200), left_margin = 2Plots.mm)
 	vline!([ eq_angle,], label = "60˚, 90˚, 120˚", lw=5, color = "black")
 
@@ -78,14 +78,14 @@ begin
 	adf_tiny_Al = ACEpotentials.get_adf(tial_data, r_cut_adf_Al);
 	plt_adf_2= histogram(adf_tiny_Al, bins=50, label = "adf", yticks = [], c = 3,
 	                    title = "Al", titlefontsize = 10,
-	                    xlabel = L"\theta", ylabel = "ADF",
+	                    xlabel = L"\theta", ylabel = "ADF TiAl",
 	                    xlims = (0, π), size=(400,200), left_margin = 2Plots.mm)
 	vline!([ eq_angle,], label = "60˚, 90˚, 120˚", lw=5, color = "black")
 	
 	adf_tiny_TiAl = ACEpotentials.get_adf(tial_data, r_cut_adf_TiAl);
 	plt_adf_3= histogram(adf_tiny_TiAl, bins=50, label = "adf", yticks = [], c = 3,
 	                    title = "TiAl", titlefontsize = 10,
-	                    xlabel = L"\theta", ylabel = "ADF",
+	                    xlabel = L"\theta", ylabel = "ADF AlAl",
 	                    xlims = (0, π), size=(400,200), left_margin = 2Plots.mm)
 	vline!([ eq_angle,], label = "60˚, 90˚, 120˚", lw=5, color = "black")
 
@@ -134,14 +134,14 @@ md"""
 # ╔═╡ Cell order:
 # ╠═0f09c745-c6b4-4788-9413-62b7da87f9bf
 # ╠═81f97bc0-8546-11ee-3ef6-414aa5615b41
-# ╠═c73701f4-16a8-42a4-a696-2901094c1a11
+# ╟─c73701f4-16a8-42a4-a696-2901094c1a11
 # ╠═5e3d4522-4959-4e6e-bb77-134b0ce23a47
-# ╠═2c53b5fe-2468-4f3f-affd-fdd0291ef4c1
+# ╟─2c53b5fe-2468-4f3f-affd-fdd0291ef4c1
 # ╠═0c7fb646-5750-4647-89b0-bee88bf34c97
 # ╠═9276daa7-113a-4c06-aaa9-9787b7d71bfc
-# ╠═03e427b3-cade-4f15-b043-9b2f5e35bb76
+# ╟─03e427b3-cade-4f15-b043-9b2f5e35bb76
 # ╠═0b5cee76-1772-49a4-ab4e-35d7e4698455
 # ╠═29e644d3-0d44-45b6-b728-87c45bc50c88
-# ╠═68fea070-a8b2-4628-8f59-3adb3efc0e97
+# ╟─68fea070-a8b2-4628-8f59-3adb3efc0e97
 # ╠═c56e1ee1-bee6-4fcc-9a15-15b6ff7e32af
 # ╠═8683ad1f-6bae-4d20-b8d6-8c4e9cbddf70

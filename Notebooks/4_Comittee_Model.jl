@@ -103,8 +103,11 @@ function assess_model(model, train_dataset)
         push!(model_energies, ene/length(atoms))
         push!(model_std, std(co_ene/length(atoms)))
     end
+	
     rmse = sqrt(sum((model_energies-Si_dataset_energies).^2)/length(Si_dataset))
     mae = sum(abs.(model_energies-Si_dataset_energies))/length(Si_dataset)
+
+
     scatter!(Si_dataset_energies, model_energies;
              label="full dataset",
              title = @sprintf("Structures Used In Training:  %i out of %i\n", length(train_dataset), length(Si_dataset)) *
@@ -147,6 +150,7 @@ function augment(old_dataset, old_model; num=5)
         ene, co_ene = ACE1.co_energy(new_model.potential, atoms)
         push!(model_std, std(co_ene/length(atoms)))
     end
+	#Choosing training points 
     for atoms in Si_dataset[sortperm(model_std; rev=true)[1:num]]
         push!(new_dataset, atoms)
     end
@@ -185,6 +189,15 @@ begin
 	assess_model(new_model, new_dataset)
 end
 
+# ╔═╡ 43440c1c-d9da-4278-aa83-737939597ccd
+begin
+	for i in 1:4
+	    @show i
+	    new_dataset, new_model = augment(new_dataset, new_model; num=10);
+	end
+	assess_model(new_model, new_dataset)
+end
+
 # ╔═╡ 56dbb733-9b84-47a5-9aaf-7cb6625ec485
 md"""
 Remarkably, although we are using only a small fraction (~3%) of the full dataset, our model now performs reasonably well.
@@ -194,26 +207,73 @@ Further iterations may improve on this result; however, a larger model is necess
 Important: While this dataset filtering can be useful, the connection with active learning is crucial. Recall that we did not use the reference energies when selecting structures, only the committee deviation.
 """
 
+# ╔═╡ dcd08f1d-04e2-4edb-a994-3d67164ee6de
+md"""
+## Model energy and STD
+"""
+
+# ╔═╡ 6c617be8-550e-43e7-8667-98878f8d96ce
+begin
+	model_energies = []
+    model_std = []
+    for atoms in Si_dataset
+        ene, co_ene = ACE1.co_energy(model.potential, atoms)
+        push!(model_energies, ene/length(atoms))
+        push!(model_std, std(co_ene/length(atoms)))
+    end
+end
+
+# ╔═╡ 5774584f-e7d3-4049-98d5-be5d0f7a6970
+model_energies
+
+# ╔═╡ 660ed92d-a653-47dd-a344-c6e5f7ea6163
+begin
+	new_model_energies = []
+	new_model_std = []
+	    for atoms in Si_dataset
+	        ene, co_ene = ACE1.co_energy(new_model.potential, atoms)
+	        push!(new_model_energies, ene/length(atoms))
+	        push!(new_model_std, std(co_ene/length(atoms)))
+	    end
+end
+
+# ╔═╡ a5e1caa4-5de6-48e2-ab4e-249362b67af6
+new_model_energies
+
+# ╔═╡ 725139f6-1552-4880-b17b-2861e5af4371
+
+
+# ╔═╡ b25a235d-11f6-4dc5-8358-ccb356643890
+
+
 # ╔═╡ 81992eb6-8fa0-473d-aa34-d8b54045b17d
 GC.gc()
 
 # ╔═╡ Cell order:
-# ╠═9cc36068-1bbd-485b-a8d0-3837c54c7fa7
+# ╟─9cc36068-1bbd-485b-a8d0-3837c54c7fa7
 # ╠═15830db7-7ef6-4222-838d-1a86eff4ca85
-# ╠═92b9901f-e3f6-4f89-b819-127e5f6b83f7
+# ╟─92b9901f-e3f6-4f89-b819-127e5f6b83f7
 # ╠═b4423e07-1b6e-4a77-ae50-d1f2ecd70d1a
 # ╠═d6c59890-d1e2-4bb2-b281-db1ca4b667e0
-# ╠═ccab2500-d930-41ba-bfea-86ba9bf7026f
+# ╟─ccab2500-d930-41ba-bfea-86ba9bf7026f
 # ╠═dc0eccf0-8541-11ee-2421-0713757269ef
-# ╠═6ef7f775-44bd-4ce2-be9d-29b0ea815448
+# ╟─6ef7f775-44bd-4ce2-be9d-29b0ea815448
 # ╠═c2481c27-3bf4-474e-b0fa-4932ddcea13b
-# ╠═4609fcce-d2e8-4106-8865-56dc20f7b6a9
+# ╟─4609fcce-d2e8-4106-8865-56dc20f7b6a9
 # ╠═4c8e1eb4-aedc-4344-808f-5cfb6e37d607
-# ╠═200598e9-1d14-41b6-bf6b-0a3d9c7299f0
+# ╟─200598e9-1d14-41b6-bf6b-0a3d9c7299f0
 # ╠═adf9c84d-21df-44c1-bb57-f80e8d09fb72
-# ╠═1472e38e-5d35-4038-b07d-8d2dcab22c9b
+# ╟─1472e38e-5d35-4038-b07d-8d2dcab22c9b
 # ╠═7c387fde-81df-415e-863d-ec585d328900
-# ╠═80f17d73-81e0-44c7-8c6b-005474116ba9
+# ╟─80f17d73-81e0-44c7-8c6b-005474116ba9
 # ╠═6a99ca1d-6f23-4ba5-8dc3-f23601b4b67b
-# ╠═56dbb733-9b84-47a5-9aaf-7cb6625ec485
+# ╠═43440c1c-d9da-4278-aa83-737939597ccd
+# ╟─56dbb733-9b84-47a5-9aaf-7cb6625ec485
+# ╟─dcd08f1d-04e2-4edb-a994-3d67164ee6de
+# ╠═6c617be8-550e-43e7-8667-98878f8d96ce
+# ╠═5774584f-e7d3-4049-98d5-be5d0f7a6970
+# ╠═660ed92d-a653-47dd-a344-c6e5f7ea6163
+# ╠═a5e1caa4-5de6-48e2-ab4e-249362b67af6
+# ╠═725139f6-1552-4880-b17b-2861e5af4371
+# ╠═b25a235d-11f6-4dc5-8358-ccb356643890
 # ╠═81992eb6-8fa0-473d-aa34-d8b54045b17d
